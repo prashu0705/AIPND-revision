@@ -5,24 +5,15 @@
 # PROGRAMMER: 
 # DATE CREATED:                                  
 # REVISED DATE: 
-# PURPOSE: Create the function get_pet_labels that creates the pet labels from 
-#          the image's filename. This function inputs: 
-#           - The Image Folder as image_dir within get_pet_labels function and 
-#             as in_arg.dir for the function call within the main function. 
-#          This function creates and returns the results dictionary as results_dic
-#          within get_pet_labels function and as results within main. 
-#          The results_dic dictionary has a 'key' that's the image filename and
-#          a 'value' that's a list. This list will contain the following item
-#          at index 0 : pet image label (string).
-#
+# PURPOSE: This function creates the pet labels based on the image filenames
+#          and returns a dictionary with filenames as keys and pet labels
+#          as values.
 ##
+
 # Imports python modules
 from os import listdir
 
-# TODO 2: Define get_pet_labels function below please be certain to replace None
-#       in the return statement with results_dic dictionary that you create 
-#       with this function
-# 
+# Function to create pet labels from filenames
 def get_pet_labels(image_dir):
     """
     Creates a dictionary of pet labels (results_dic) based upon the filenames 
@@ -40,6 +31,34 @@ def get_pet_labels(image_dir):
       List. The list contains for following item:
          index 0 = pet image label (string)
     """
-    # Replace None with the results_dic dictionary that you created with this
-    # function
-    return None
+    # Creates list of files in directory
+    in_files = listdir(image_dir)
+    
+    # Creates empty dictionary for the results (pet labels, etc.)
+    results_dic = dict()
+   
+    # Processes through each file in the directory, extracting only the words
+    # of the file that contain the pet image label
+    for idx in range(0, len(in_files), 1):
+       
+       # Skips file if starts with . (like .DS_Store of Mac OSX) because it 
+       # isn't an pet image file
+       if in_files[idx][0] != ".":
+           
+           # Creates temporary label variable to hold pet label name extracted 
+           pet_label = ""
+
+           # Processes each filename to extract pet label (dog breed)
+           # Assumes the filename format is like: "dog_breed_001.jpg"
+           words = in_files[idx].lower().split('_')
+           pet_label = " ".join(words[:-1])  # Extracts words except for the last part (number/extension)
+
+           # If filename doesn't already exist in dictionary add it and its pet label
+           if in_files[idx] not in results_dic:
+              results_dic[in_files[idx]] = [pet_label]
+           else:
+               print("** Warning: Duplicate files exist in directory:", in_files[idx])
+ 
+    # Return the results dictionary containing filenames and their pet labels
+    return results_dic
+

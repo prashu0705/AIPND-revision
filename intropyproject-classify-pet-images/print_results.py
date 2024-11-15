@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/print_results.py
 #                                                                             
-# PROGRAMMER: 
-# DATE CREATED:
+# PROGRAMMER: Prashansa Bhatia 
+# DATE CREATED: 15 Nov 2024
 # REVISED DATE: 
 # PURPOSE: Create a function print_results that prints the results statistics
 #          from the results statistics dictionary (results_stats_dic). It 
@@ -62,5 +62,40 @@ def print_results(results_dic, results_stats_dic, model,
     Returns:
            None - simply printing results.
     """    
-    None
+    print("\n\n*** Results Summary for CNN Model Architecture", model.upper(), "***")
+    print("{:20}: {:3d}".format('N Images', results_stats_dic['n_images']))
+    print("{:20}: {:3d}".format('N Dog Images', results_stats_dic['n_dogs_img']))
+    print("{:20}: {:3d}".format('N Not-Dog Images', results_stats_dic['n_notdogs_img']))
+    
+    print("\nPercentage Calculations:")
+    for key in results_stats_dic:
+        if key.startswith('pct'):
+            print("{:20}: {:5.1f}%".format(key, results_stats_dic[key]))
+    
+    if (print_incorrect_dogs and 
+        ((results_stats_dic['n_correct_dogs'] + results_stats_dic['n_correct_notdogs'])
+          != results_stats_dic['n_images'])):
+        print("\nINCORRECT Dog/NOT Dog Assignments:")
+        for key in results_dic:
+            pet_label = results_dic[key][0]
+            classifier_label = results_dic[key][1]
+            is_dog = results_dic[key][3]
+            classifier_is_dog = results_dic[key][4]
+
+            if (is_dog != classifier_is_dog):
+                print("Pet Label: {:>26}   Classifier Label: {:>30}".format(pet_label, classifier_label))
+
+    if (print_incorrect_breed and 
+        (results_stats_dic['n_correct_dogs'] != results_stats_dic['n_correct_breed'])):
+        print("\nINCORRECT Dog Breed Assignment:")
+        for key in results_dic:
+            pet_label = results_dic[key][0]
+            classifier_label = results_dic[key][1]
+            match = results_dic[key][2]
+            is_dog = results_dic[key][3]
+            classifier_is_dog = results_dic[key][4]
+
+            if (is_dog == 1 and classifier_is_dog == 1 and match == 0):
+                print("Real: {:>26}   Classifier: {:>30}".format(pet_label, classifier_label))
+    
                 
