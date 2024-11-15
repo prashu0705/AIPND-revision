@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # */AIPND-revision/intropyproject-classify-pet-images/classify_images_hints.py
+#PROGRAMER : Prashansa Bhatia
+#DATE: 15 Nov 2024
 
 # Imports classifier function for using CNN to classify images 
 from classifier import classifier 
